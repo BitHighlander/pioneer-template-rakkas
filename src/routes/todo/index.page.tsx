@@ -61,10 +61,14 @@ export default function TodoPage() {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const nativeAdapter = NativeAdapter.useKeyring(keyring);
             const walletSoftware = await nativeAdapter.pairDevice("testid");
+
+            await nativeAdapter.initialize();
+
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            walletSoftware.loadDevice({ mnemonic });
-            await nativeAdapter.initialize();
+            await walletSoftware.loadDevice({ mnemonic });
+            // eslint-disable-next-line no-console
+
             // eslint-disable-next-line no-console
             console.log("walletSoftware: ",walletSoftware)
             // eslint-disable-next-line no-console
@@ -84,6 +88,9 @@ export default function TodoPage() {
             const ethAddress = await walletSoftware.ethGetAddress(addressInfo);
             // eslint-disable-next-line no-console
             console.log("ethAddress: ",ethAddress)
+
+            // eslint-disable-next-line no-console
+            console.log("isInitialized: ",await walletSoftware?.isInitialized())
         }catch(e){
             console.error(e)
         }
